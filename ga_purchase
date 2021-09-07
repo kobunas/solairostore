@@ -1,0 +1,33 @@
+{% if app.request.pathinfo == '/shopping/complete' %}
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-63QY0TM6E1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-63QY0TM6E1');
+  gtag('config', 'UA-123134291-1');
+
+gtag('event', 'purchase', {
+  affiliation: '{{ BaseInfo.shop_name }}',
+  currency: 'JPY',
+  items: [
+    {% for OrderItem in Order.MergedProductOrderItems %}
+    {
+    item_id: '{{ OrderItem.product_code ? OrderItem.product_code : OrderItem.product.id }}',
+    item_name: '{{ OrderItem.product_name }}',
+    affiliation: '{{ BaseInfo.shop_name }}',
+    price: {{ OrderItem.price_inc_tax }},
+    currency: 'JPY',
+    quantity: {{ OrderItem.quantity|number_format }}
+  }, 
+    {% endfor %}
+  ],
+  transaction_id: '{{ Order.order_no ? Order.order_no : Order.id }}',
+  value: {{ Order.payment_total }},
+});
+
+</script>
+{% endif %}
