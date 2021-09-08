@@ -1,1 +1,16 @@
+{# 会員としてログインしている場合の処理 #}
+{% if is_granted('ROLE_USER') %}
 
+{# trueの場合の表示 #}
+<script src="https://whatya.solairo-api.com/sola3/chat.js"
+  data-cs-id="{{ app.user.email }}"
+  data-cs-secret="{{ app.user.secret_key }}"
+  data-cs-name="{{ app.user.name01 }}{{ app.user.name02 }}"
+></script>
+
+{% else %}
+{# falseの場合の表示 #}
+
+<script src="https://whatya.solairo-api.com/sola3/chat.js"></script>
+
+{% endif %}
